@@ -1,13 +1,13 @@
 import argparse
 import os
-
-
+#hello this is amay
+# this is zihan
 import constants
 from datasets.StartingDataset import StartingDataset
 from networks.StartingNetwork import StartingNetwork
 from train_functions.starting_train import starting_train
 
-
+# halen's edit
 SUMMARIES_PATH = "training_summaries"
 
 
