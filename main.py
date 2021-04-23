@@ -12,7 +12,7 @@ from datasets.StartingDataset import StartingDataset
 from networks.StartingNetwork import StartingNetwork
 from train_functions.starting_train import starting_train
 
-# halen's edit
+# this is my new edit 4/22/2021
 SUMMARIES_PATH = "training_summaries"
 
 
