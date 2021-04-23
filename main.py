@@ -4,6 +4,8 @@ import os
 # change 2 check
 # this is zihan
 #edit 4/22
+#edit check
+
 import constants
 from datasets.StartingDataset import StartingDataset
 from networks.StartingNetwork import StartingNetwork
