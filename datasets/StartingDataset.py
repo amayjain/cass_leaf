@@ -17,6 +17,7 @@ class StartingDataset(torch.utils.data.Dataset):
        # x = "../cass_data/" + str(pd[index])
         # y = "../cass_data/" + "1000015157.jpg"
         jpg_str = str((self.data.loc[index])['image_id'])
+        labels = (self.data.loc[index])['label']
         with Image.open("../cass_data/train_images/" + jpg_str) as im:
             #x = im.rotate(0).show()
             #pix_val = torch.Tensor(im.getdata()) #have to reshape to smaller size
@@ -33,7 +34,7 @@ class StartingDataset(torch.utils.data.Dataset):
         #b = inputs.shape
 
         #return inputs, label
-        return z
+        return z, labels
 
     def __len__(self):
         return 21367
