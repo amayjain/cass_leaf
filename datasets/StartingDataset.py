@@ -14,7 +14,10 @@ class StartingDataset(torch.utils.data.Dataset):
 
 
     def __getitem__(self, index):
-        with Image.open("../cass_data/train_images/6103.jpg") as im:
+       # x = "../cass_data/" + str(pd[index])
+        # y = "../cass_data/" + "1000015157.jpg"
+        jpg_str = str((self.data.loc[index])['image_id'])
+        with Image.open("../cass_data/train_images/" + jpg_str) as im:
             #x = im.rotate(0).show()
             #pix_val = torch.Tensor(im.getdata()) #have to reshape to smaller size
             
@@ -24,21 +27,27 @@ class StartingDataset(torch.utils.data.Dataset):
             z = y.reshape((3,224,224))
        
 
-        inputs = torch.zeros([3, 224, 224])
-        label = 0
-        a = z.shape
-        b = inputs.shape
+        #inputs = torch.zeros([3, 224, 224])
+       #label = 0
+        #a = z.shape
+        #b = inputs.shape
 
         #return inputs, label
-        return a, b
+        return z
 
     def __len__(self):
-        return 10000
+        return 21367
 
 
 x = StartingDataset()
-print(x.__getitem__(0))
-x.data.head()
+#print(x.__getitem__(23))
+#x.data.head()
+
+
+"""
+for i in range(26):
+    print(x.__getitem__(i))
+"""
 
 #finish __getitem__
 #finish len
