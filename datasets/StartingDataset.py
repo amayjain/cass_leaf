@@ -14,16 +14,32 @@ class StartingDataset(torch.utils.data.Dataset):
 
 
     def __getitem__(self, index):
-        # PIL.Image.open(fp, mode='r', formats=None)
         with Image.open("../cass_data/train_images/6103.jpg") as im:
-            im.rotate().show()
-        # inputs = torch.zeros([3, 224, 224])
-        # label = 0
+            #x = im.rotate(0).show()
+            #pix_val = torch.Tensor(im.getdata()) #have to reshape to smaller size
+            
+            resize = im.resize((224,224))
+            #x = resize.rotate(0).show()
+            y = torch.Tensor(resize.getdata())
+            z = y.reshape((3,224,224))
+       
 
-        return inputs, label
+        inputs = torch.zeros([3, 224, 224])
+        label = 0
+        a = z.shape
+        b = inputs.shape
+
+        #return inputs, label
+        return a, b
 
     def __len__(self):
         return 10000
 
 
 x = StartingDataset()
+print(x.__getitem__(0))
+x.data.head()
+
+#finish __getitem__
+#finish len
+#finish info doc
