@@ -10,14 +10,15 @@ class StartingDataset(torch.utils.data.Dataset):
     """
 
     def __init__(self, train_check):
-        if train_check == true:
-            self.data = pd.read_csv('../cass_data/train.csv') # 80%
+        if train_check == True:
+            self.data = pd.read_csv('../cass_data/train.csv', nrows = 17000) # 80%
         else:
-            self.data = pd.read_csv('../cass_data/train.csv') # 20%
+            self.data = pd.read_csv('../cass_data/train.csv', skiprows = 17000, nrows = 4367) # 20%
+            self.data.columns = ['image_id', 'label']
 
 
     def __getitem__(self, index):
-       # x = "../cass_data/" + str(pd[index])
+        # x = "../cass_data/" + str(pd[index])
         # y = "../cass_data/" + "1000015157.jpg"
         jpg_str = str((self.data.loc[index])['image_id'])
         labels = (self.data.loc[index])['label']
@@ -32,7 +33,7 @@ class StartingDataset(torch.utils.data.Dataset):
        
 
         #inputs = torch.zeros([3, 224, 224])
-       #label = 0
+        #label = 0
         #a = z.shape
         #b = inputs.shape
 
@@ -40,7 +41,7 @@ class StartingDataset(torch.utils.data.Dataset):
         return z, labels
 
     def __len__(self):
-        return 21367
+        return len(self.data)
 
 
 leaf_traindata = StartingDataset(true)
