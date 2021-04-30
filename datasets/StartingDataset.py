@@ -44,11 +44,11 @@ class StartingDataset(torch.utils.data.Dataset):
         return len(self.data)
 
 
-leaf_traindata = StartingDataset(true)
-leaf_testdata = StartingDataset(false)
-#print(x.__getitem__(23))
-#x.data.head()
+if __name__ == '__main__':
+    leaf_traindata = StartingDataset(True)
+    leaf_testdata = StartingDataset(False)
+    #print(x.__getitem__(23))
+    #x.data.head()
 
-leaf_traindataload = torch.utils.data.DataLoader(leaf_traindata, batch_size= 16, shuffle=True)
-leaf_testdataload = torch.utils.data.DataLoader(leaf_testdata, batch_size= 16, shuffle=True)
-
+    leaf_traindataload = torch.utils.data.DataLoader(leaf_traindata, batch_size= 16, shuffle=True)
+    leaf_testdataload = torch.utils.data.DataLoader(leaf_testdata, batch_size= 16, shuffle=True)
