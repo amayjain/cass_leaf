@@ -48,11 +48,26 @@ def starting_train(
 
             # TODO: Backpropagation and gradient descent
 
+            # might need some changes
+            images, labels = batch
+            images = images.to(device)
+            labels = labels.to(device)
+
+            outputs = conv_net(images)
+            loss = loss_function(outputs, labels)
+
+            loss.backward()
+            optimizer.step()
+            optimizer.zero_grad()
+            # might need some changes
+            
             # Periodically evaluate our model + log to Tensorboard
             if step % n_eval == 0:
                 # TODO:
                 # Compute training loss and accuracy.
                 # Log the results to Tensorboard.
+                writer.add_scalar('train_loss', loss, global_step=step)
+                step += 1
 
                 # TODO:
                 # Compute validation loss and accuracy.
@@ -89,3 +104,21 @@ def evaluate(val_loader, model, loss_fn):
     TODO!
     """
     pass
+
+
+
+
+"""
+for epoch in range(5):
+    for batch in train_loader:
+        images, labels = batch
+        images = images.to(device)
+        labels = labels.to(device)
+
+        outputs = conv_net(images)
+        loss = loss_function(outputs, labels)
+
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+"""
