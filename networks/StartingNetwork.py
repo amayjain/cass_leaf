@@ -51,15 +51,4 @@ if __name__ == 'main':
     loss_function = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(conv_net.parameters())
 
-    for epoch in range(5):
-    for batch in train_loader:
-        images, labels = batch
-        images = images.to(device)
-        labels = labels.to(device)
-
-        outputs = conv_net(images)
-        loss = loss_function(outputs, labels)
-
-        loss.backward()
-        optimizer.step()
-        optimizer.zero_grad()
+    
