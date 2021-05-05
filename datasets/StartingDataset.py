@@ -32,7 +32,7 @@ class StartingDataset(torch.utils.data.Dataset):
         with Image.open(f"{self.img_path}/{jpg_str}") as im:
             im = self.transforms(im)
 
-        print("label:", label)
+        #print("label:", label)
         return im, label
 
     def __len__(self):

@@ -30,6 +30,7 @@ def starting_train(
     val_loader = torch.utils.data.DataLoader(
         val_dataset, batch_size=batch_size, shuffle=True
     )
+    print(batch_size)
 
     # Initalize optimizer (for gradient descent) and loss function
     optimizer = optim.Adam(model.parameters())
@@ -54,8 +55,8 @@ def starting_train(
             images = images.to(device)
             labels = labels.to(device)
 
-            outputs = conv_net(images)
-            loss = loss_function(outputs, labels)
+            outputs = model(images)
+            loss = loss_fn(outputs, labels)
 
             loss.backward()
             optimizer.step()
