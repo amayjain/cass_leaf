@@ -27,28 +27,18 @@ class FullyConnectedNet(nn.Module):
     return x
 
 class StartingNetwork(torch.nn.Module):
-    """
-    Basic logistic regression on 224x224x3 images.
-    """
+  def __init__(self, input_channels, output_dim):
+    super().__init__()
+    # input_channels = 3 -- red, green, blue
+    self.conv1 = nn.Conv2d(input_channels, 6, 5) # 5 = filter size
+    self.pool = nn.MaxPool2d(2, 2) #filter stride
+    self.conv2 = nn.Conv2d(6, 16, 5)
+    self.fc_net = FullyConnectedNet(16 * 4 * 4, output_dim)
 
-    def __init__(self, input_channels, output_dim):
-        super().__init__()
-        # input_channels = 3 -- red, green, blue
-        self.conv1 = nn.Conv2d(input_channels, 6, 5) # 5 = filter size
-        self.pool = nn.MaxPool2d(2, 2) #filter stride
-        self.conv2 = nn.Conv2d(6, 16, 5)
-        self.fc_net = FullyConnectedNet(16 * 4 * 4, output_dim)
-        
+  def forward(self, x):
+    x = self.pool(F.relu(self.conv1(x)))
+    x = self.pool(F.relu(self.conv2(x)))
+    x = torch.reshape(x, (-1, 16 * 4 * 4))
+    x = self.fc_net(x)
 
-    def forward(self, x):
-        x = self.pool(F.relu(self.conv1(x)))
-        x = self.pool(F.relu(self.conv2(x)))
-        x = torch.reshape(x, (-1, 16 * 4 * 4))
-        x = self.fc_net(x)
-
-if __name__ == 'main':
-    test_net = StartingNetwork(3, 5)
-    loss_function = nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(conv_net.parameters())
-
-    
+    return x

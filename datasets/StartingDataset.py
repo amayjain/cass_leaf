@@ -1,54 +1,50 @@
 import torch
-import torchvision
+import torchvision.transforms as transforms 
 import pandas as pd
 from PIL import Image
-import matplotlib.pyplot as plt
 
 class StartingDataset(torch.utils.data.Dataset):
-    """
-    Dataset that contains 100000 3x224x224 black images (all zeros).
-    """
+    def __init__(self, df_path="cass_data/train.csv", img_path="cass_data/train_images", train=True):
+        df = pd.read_csv(df_path).sample(frac = 1, random_state=42).reset_index(drop=True)
 
-    def __init__(self, train_check):
-        if train_check == True:
-            self.data = pd.read_csv('../cass_data/train.csv', nrows = 17000) # 80%
+        train_percentage = 0.8
+        rows = df.shape[0]
+        train_rows = int(rows * train_percentage)
+
+        if train:
+            self.df = df.iloc[:train_rows]
         else:
-            self.data = pd.read_csv('../cass_data/train.csv', skiprows = 17000, nrows = 4367) # 20%
-            self.data.columns = ['image_id', 'label']
+            self.df = df.iloc[train_rows:]
+        
+        self.df = self.df.reset_index(drop=True)
 
+        self.img_path = img_path
+
+        self.transforms = transforms.Compose([
+            transforms.Resize((224,224)),
+            transforms.ToTensor(),
+        ])
 
     def __getitem__(self, index):
-        # x = "../cass_data/" + str(pd[index])
-        # y = "../cass_data/" + "1000015157.jpg"
-        jpg_str = str((self.data.loc[index])['image_id'])
-        labels = (self.data.loc[index])['label']
-        with Image.open("../cass_data/train_images/" + jpg_str) as im:
-            #x = im.rotate(0).show()
-            #pix_val = torch.Tensor(im.getdata()) #have to reshape to smaller size
-            
-            resize = im.resize((224,224))
-            #x = resize.rotate(0).show()
-            y = torch.Tensor(resize.getdata())
-            z = y.reshape((3,224,224))
-       
+        jpg_str = str(self.df.loc[index]['image_id'])
+        label = self.df.loc[index]['label']
 
-        #inputs = torch.zeros([3, 224, 224])
-        #label = 0
-        #a = z.shape
-        #b = inputs.shape
+        with Image.open(f"{self.img_path}/{jpg_str}") as im:
+            im = self.transforms(im)
 
-        #return inputs, label
-        return z, labels
+        print("label:", label)
+        return im, label
 
     def __len__(self):
-        return len(self.data)
+        return len(self.df)
 
 
 if __name__ == '__main__':
-    leaf_traindata = StartingDataset(True)
-    leaf_testdata = StartingDataset(False)
-    #print(x.__getitem__(23))
-    #x.data.head()
+    df_path = "../cass_data/train.csv"
+    img_path = "../cass_data/train_images"
 
-    leaf_traindataload = torch.utils.data.DataLoader(leaf_traindata, batch_size= 16, shuffle=True)
-    leaf_testdataload = torch.utils.data.DataLoader(leaf_testdata, batch_size= 16, shuffle=True)
+    train = StartingDataset(df_path=df_path, img_path=img_path, train=True)
+    test = StartingDataset(df_path=df_path, img_path=img_path, train=False)
+    
+    # print(train[42])
+    # train.df.head()

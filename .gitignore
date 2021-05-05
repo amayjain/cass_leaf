@@ -3,3 +3,5 @@ __pycache__
 
 training_summaries
 cass_data
+
+.DS_Store

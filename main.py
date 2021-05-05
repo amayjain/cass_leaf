@@ -36,8 +36,8 @@ def main():
 
     # Initalize dataset and model. Then train the model!
     train_dataset = StartingDataset()
-    val_dataset = StartingDataset()
-    model = StartingNetwork()
+    val_dataset = StartingDataset(train=False)
+    model = StartingNetwork(3, 5)
     starting_train(
         train_dataset=train_dataset,
         val_dataset=val_dataset,
