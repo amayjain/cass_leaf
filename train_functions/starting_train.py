@@ -4,6 +4,7 @@ import torch.optim as optim
 import torch.utils.tensorboard
 
 
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 def starting_train(
     train_dataset, val_dataset, model, hyperparameters, n_eval, summary_path
 ):
