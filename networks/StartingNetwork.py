@@ -49,7 +49,7 @@ class StartingNetwork(torch.nn.Module):
     print("phase 1", x.shape)
     x = self.pool(F.relu(self.conv2(x)))
     print("phase 2", x.shape)
-    x = torch.reshape(x, (-1, 16 * 53* 53))
+    x = torch.reshape(x, (-1, 16 * 53 * 53))
     x = self.fc_net(x)
     print("phase 3", x.shape)
 
