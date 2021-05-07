@@ -53,7 +53,7 @@ def parse_arguments():
     parser.add_argument("--epochs", type=int, default=constants.EPOCHS)
     parser.add_argument("--batch_size", type=int, default=constants.BATCH_SIZE)
     parser.add_argument("--n_eval", type=int, default=constants.N_EVAL)
-    parser.add_argument("--logdir", type=str, default=None)
+    parser.add_argument("--logdir", type=str, default="test")
     return parser.parse_args()
 
 
