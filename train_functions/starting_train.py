@@ -93,7 +93,7 @@ def compute_accuracy(outputs, labels):
     Example output:
         0.75
     """
-
+    #argmax (maybe)
     n_correct = (torch.round(outputs) == labels).sum().item()
     n_total = len(outputs)
     return n_correct / n_total
@@ -102,10 +102,12 @@ def compute_accuracy(outputs, labels):
 def evaluate(val_loader, model, loss_fn):
     """
     Computes the loss and accuracy of a model on the validation dataset.
-
+    
     TODO!
     """
-    pass
+    #argmax
+    for i, batch in enumerate(val_loader):
+            print(f"\rIteration {i + 1} of {len(train_loader)} ...", end="")
 
 
 

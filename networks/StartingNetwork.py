@@ -52,6 +52,6 @@ class StartingNetwork(torch.nn.Module):
     x = torch.reshape(x, (-1, 16 * 53 * 53))
     x = self.fc_net(x)
     #print("phase 3", x.shape)
-    x = torch.argmax(x)
+    #x = torch.argmax(x, dim = 1)
     #argmax, softmax
     return x
