@@ -75,7 +75,7 @@ def starting_train(
                 # Compute validation loss and accuracy.
                 # Log the results to Tensorboard.
                 # Don't forget to turn off gradient calculations!
-                evaluate(val_loader, model, loss_fn)
+                print(evaluate(val_loader, model, loss_fn))
 
             step += 1
 
@@ -105,10 +105,24 @@ def evaluate(val_loader, model, loss_fn):
     
     TODO!
     """
-    #argmax
-    for i, batch in enumerate(val_loader):
-            print(f"\rIteration {i + 1} of {len(train_loader)} ...", end="")
+    sum_acc = 0
+    counter = 0
+    model.eval()
+    with torch.no_grad():
+        for i, batch in enumerate(val_loader):
+            images, labels = batch
+            images = images.to(device)
+            labels = labels.to(device)
 
+            outputs = model(images)
+            loss = loss_fn(outputs, labels)
+            outputs = torch.argmax(outputs, dim = 1)
+            sum_acc += compute_accuracy(outputs, labels)
+            counter += 1
+        
+        sum_acc /= counter
+            
+    return sum_acc
 
 
 
