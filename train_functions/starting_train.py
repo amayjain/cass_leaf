@@ -121,6 +121,7 @@ def evaluate(val_loader, model, loss_fn):
             counter += 1
         
         sum_acc /= counter
+        sum_acc *= 100
             
     return sum_acc
 
