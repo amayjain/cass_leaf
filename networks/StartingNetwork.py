@@ -43,35 +43,41 @@ class StartingNetwork(torch.nn.Module):
     print("starting net's output dim", output_dim)
     super().__init__()
     self.resnet = torch.hub.load('pytorch/vision:v0.9.0', 'resnet18', pretrained=True) #initialize
+    print("res features", self.resnet.fc.in_features)
     self.resnet = torch.nn.Sequential(*(list(self.resnet.children())[:-1])) #cut off last layer
     self.resnet.eval() #set on eval mode to freeze weights
 
     # input_channels = 3 -- red, green, blue
-    self.conv1 = nn.Conv2d(512, 6, 5) # 5 = filter size
-    self.pool = nn.MaxPool2d(2, 2) #filter stride
-    self.conv2 = nn.Conv2d(6, 16, 5)
-    self.conv3 = nn.Conv2d(16,16,5)
-    self.fc_net = FullyConnectedNet(16*24*24, output_dim)
+    #self.conv1 = nn.Conv2d(512, 6, 4, padding = (1,1)) # 5 = filter size
+    #self.pool = nn.MaxPool2d(2, 2) #filter stride
+    #self.conv2 = nn.Conv2d(6, 16, 4, padding = (2,2))
+    #self.conv3 = nn.Conv2d(16,16,4, padding = (2,2))
+    #self.fc_net = FullyConnectedNet(32*512, output_dim)
+
+    self.fc1 = nn.Linear(512, output_dim)
 
   def forward(self, x):
-    print("before res", x.shape)
+    #print("before res", x.shape)
     with torch.no_grad():
       x = self.resnet(x)
-    print("resnet shape", x.shape)
-    x = self.pool(F.relu(self.conv1(x)))
+    #print("resnet shape", x.shape)
+    #x = self.pool(F.relu(self.conv1(x)))
     #print("phase 1", x.shape)
 
-    x = self.pool(F.relu(self.conv2(x)))
+    #x = self.pool(F.relu(self.conv2(x)))
 
     #print("phase 2", x.shape)
-    x = self.pool(F.relu(self.conv3(x)))
+    #x = self.pool(F.relu(self.conv3(x)))
 
-    #print(x.shape)
-    x = torch.reshape(x, (-1, 16 * 24 * 24))
+    #print("phase 3", x.shape)
+    x = torch.reshape(x, (-1, 512))
 
-    x = self.fc_net(x)
+    #x = self.fc_net(x)
+    #print("fc shape", x.shape)
     #print("phase 3", x.shape)
     #x = torch.argmax(x, dim = 1)
     #argmax, softmax
+    x = self.fc1(x)
+    #print("fc1", x.shape)
     
     return x
