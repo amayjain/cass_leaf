@@ -100,3 +100,7 @@ class StartingNetwork(torch.nn.Module):
 
     
     return x
+
+
+#increase image size (448 x 448) --> one layer before resnet, resize, resnet
+# unfreeze weights --> remove .eval() and with torch.no_grad()
