@@ -21,7 +21,7 @@ class StartingDataset(torch.utils.data.Dataset):
         self.img_path = img_path
 
         self.transforms = transforms.Compose([
-            transforms.Resize((224,224)),
+            transforms.Resize((448,448)),
             transforms.ToTensor(),
         ])
 
